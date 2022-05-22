@@ -1,13 +1,4 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListIcon,
-  UnorderedList,
-  Switch,
-  Text,
-  Textarea,
-} from '@chakra-ui/react';
+import { Box, ListItem, UnorderedList, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import * as api from 'strateegia-api';
 import MapList from '../components/MapList';
@@ -88,46 +79,39 @@ export default function Main() {
 
   return (
     <Box padding={10}>
+      <Heading as="h3" size="md" mb={3}>
+        listas de convergências
+      </Heading>
       <ProjectList handleSelectChange={handleSelectChange} />
       <MapList
         projectId={selectedProject}
         handleSelectChange={handleMapSelectChange}
       />
-      <Box padding={10}>
-        <span>listar </span>
-        <Switch size="lg" onChange={listOrCreate} />
-        <span> criar</span>
-      </Box>
-      {isCreate ? (
-        <Box>
-          <Text mb="8px"></Text>
-          <Textarea
-            value={textForCreate}
-            onChange={handleInputChange}
-            placeholder="adicione um texto"
-            size="md"
-            rows={10}
-          />
-        </Box>
+      <ConvergencePointList convergencePoints={convergencePoints} />
+    </Box>
+  );
+}
+
+function ConvergencePointList({ convergencePoints }) {
+  return (
+    <Box>
+      {convergencePoints.length > 0 ? (
+        convergencePoints.map(convergencePoint =>
+          convergencePoint.questions.map(question => (
+            <Box margin={10}>
+              <strong key={question.id}>{question.text}</strong>
+              <UnorderedList margin={5}>
+                {question.options.map(option => (
+                  <ListItem key={option.id}>
+                    {option.text}: {(option.average * 100).toFixed(2)}%
+                  </ListItem>
+                ))}
+              </UnorderedList>
+            </Box>
+          ))
+        )
       ) : (
-        <Box>
-          {convergencePoints.length > 0 ? (
-            convergencePoints.map(convergencePoint =>
-              convergencePoint.questions.map(question => (
-                <Box margin={10}>
-                  <p key={question.id}>{question.text}</p>
-                  <UnorderedList margin={5}>
-                    {question.options.map(option => (
-                      <ListItem key={option.id}>{option.text}</ListItem>
-                    ))}
-                  </UnorderedList>
-                </Box>
-              ))
-            )
-          ) : (
-            <p>sem pontos de convergência</p>
-          )}
-        </Box>
+        <p>sem pontos de convergência</p>
       )}
     </Box>
   );
