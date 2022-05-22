@@ -3,7 +3,7 @@ import { Select } from '@chakra-ui/react';
 import * as api from 'strateegia-api';
 
 export default function MapList({ projectId, handleSelectChange }) {
-  const [mapList, setMapList] = useState([]);
+  const [mapList, setMapList] = useState(null);
 
   useEffect(() => {
     async function fetchMapList() {
