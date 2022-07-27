@@ -80,10 +80,10 @@ export default function Main() {
   }, [selectedMap]);
 
   
-  // useEffect(() => {
-  //   console.log("🚀 ~ file: Main.jsx ~ line 100 ~ Main ~ convergencePoints", convergencePoints)
+  useEffect(() => {
+    console.log("🚀 ~ file: Main.jsx ~ line 100 ~ Main ~ convergencePoints", convergencePoints)
     
-  // }, [convergencePoints]);
+  }, [convergencePoints]);
 
   useEffect(() => {
     setAccessToken(localStorage.getItem('accessToken'));

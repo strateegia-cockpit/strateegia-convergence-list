@@ -1,24 +1,19 @@
 import { Box } from "@chakra-ui/react";
+import { CSVLink } from "react-csv";
 import { ButtonExp } from "./ButtonToExport";
-import PizZip from "pizzip";
-import { saveAs } from "file-saver";
 
-export function ExportsButtons({ project, users, stats, rawData, saveFile }) {
-
-    const usersCsv = users ? dataToCsv(users) : null;
-    const statisticsCsv = stats ? dataToCsv(stats) : null;
-
-    const zip = new PizZip;
-    zip.file("strateegia_production_per_person_users_data_report-csv.csv", usersCsv);
-    zip.file("strateegia_production_per_person_statistics_data_report-csv.csv", statisticsCsv);
-    
-    const content = zip.generate({type: "blob"});
-
+export function ExportsButtons({ project, data, saveFile }) {
+  
   return (
     <Box display="flex" justifyContent="flex-end" alignItems='flex-end' m='4px'>
       <ButtonExp click={saveFile} project={project} text='docx'/>
-      <ButtonExp click={() => saveAs(content, "strateegia_production_per_person_report-csv.zip")} project={project} text='csv'/>
-      <ButtonExp click={() => exportJSONData(rawData)} project={project} text='json'/>
+      <CSVLink
+        data={data}
+        filename="strateegia_people_contribution-csv.csv"
+      >
+        <ButtonExp click={null} project={project} text='csv'/>
+      </CSVLink>
+      <ButtonExp click={() => exportJSONData(data)} project={project} text='json'/>
     </Box>
   );
 }

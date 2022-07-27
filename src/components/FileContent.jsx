@@ -8,7 +8,7 @@ function loadFile(url, callback) {
     PizZipUtils.getBinaryContent(url, callback);
 }
 
-export const generateDocument = (usersScore) => {
+export const generateDocument = (convergencePoints) => {
 
     loadFile(
         reportsCockpit,
@@ -21,31 +21,25 @@ export const generateDocument = (usersScore) => {
                 paragraphLoop: true,
                 linebreaks: true,
             });
-
-            const docData = usersScore.map((user, i) => {
-                const blueRow = {
-                    'hasBlue': true,
-                    'hasWhite': false,
-                    'name': user.name,
-                    'metrica1': user.metrica1,
-                    'metrica2': user.metrica2,
-                    'score': user.score,
-                };
-                const whiteRow = {
-                    'hasBlue': false,
-                    'hasWhite': true,
-                    'name_2': user.name,
-                    'metrica1_2': user.metrica1,
-                    'metrica2_2': user.metrica2,
-                    'score_2': user.score,
-                };
-
-                return i % 2 == 0 ? blueRow : whiteRow;
-            
+            const docData = []
+            convergencePoints.map((convergencePoint) => {
+                convergencePoint.questions.map( async ({text, options}) => {
+                    const data = {
+                        title: text,
+                        options: options.map(({text, average}) => {
+                            return {
+                                option:  text,
+                                average: (average * 100).toFixed(2) + '%'
+                            }
+                        })
+                    }
+                    docData.push(data)   
+                })
             });
+                
 
             doc.render({
-                'influencers': docData
+                'convPoints': docData
             });
 
             const out = doc.getZip().generate({
@@ -53,7 +47,7 @@ export const generateDocument = (usersScore) => {
                 mimeType:
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             }); //Output the document using Data-URI
-            saveAs(out, "strateegia_influential_report-docx.docx");
+            saveAs(out, "strateegia_convergence_list_report-docx.docx");
         }
     );
 

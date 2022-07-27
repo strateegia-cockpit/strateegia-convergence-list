@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Box, Text, UnorderedList, Heading, Button } from '@chakra-ui/react';
-import { CSVLink } from 'react-csv';
-import { exportJSONData } from '../utils/exportFunctions'
 
 export default function ConvergencePointList({ convergencePoints }) {
     // console.log('convergencePoints', convergencePoints)
@@ -15,44 +13,11 @@ export default function ConvergencePointList({ convergencePoints }) {
       
     }, [convergencePoints])
   
-    // useEffect(() => {
-    //   console.log('csv' ,csv)
-    // }, [csv]);
-    // console.log('cgPoint', cgPoint)
+
     return (
       <Box>
         {convergencePoints.length > 0 ? (
           <>
-            {/* <Box display='flex' justifyContent='flex-end'>
-              <CSVLink data={csv} filename='strateegia_convergence_points_report-csv.csv'>
-                <Button
-                  size='xs'
-                  fontSize='14px'
-                  fontWeight='400'
-                  bg='#6c757d' 
-                  color='#fff'
-                  borderRadius='3px'
-                  _hover={{bg: '#5C636A'}}
-                  paddingBottom={'4px'}
-                >
-                  csv
-                </Button>
-              <Button
-                m='2px'
-                size='xs'
-                fontSize='14px'
-                fontWeight='400'
-                bg='#6c757d' 
-                color='#fff'
-                borderRadius='3px'
-                _hover={{bg: '#5C636A'}}
-                paddingBottom={'4px'}
-                onClick={() => exportJSONData(csv)}
-              >
-                json
-              </Button>
-              </CSVLink>
-            </Box> */}
             {convergencePoints.map(convergencePoint =>
               convergencePoint.questions.map(question => (
                 <Box margin={10}>

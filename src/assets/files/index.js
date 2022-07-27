@@ -1,3 +1,3 @@
-const reportsCockpit = require('./loop-table.docx');
+const reportsCockpit = require('./loop-list.docx');
 
 export { reportsCockpit };

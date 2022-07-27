@@ -7,7 +7,7 @@ export const exportJSONData = (data) => {
 
   const link = document.createElement("a");
   link.href = jsonString;
-  link.download = "strateegia_convergence_points_report-json.json";
+  link.download = "strateegia_convergence_list_report-json.json";
 
   link.click();
 }
@@ -25,7 +25,7 @@ export async function fetchConvergencePoints(accessToken, selectedMap) {
 }
 
 const getConvergencePointsFromApi = async (accessToken, selectedMap) => {
-  
+
   const allMaps = await Promise.all(
     selectedMap.map(
       async ({value}) => await api.getMapById(accessToken, value)
