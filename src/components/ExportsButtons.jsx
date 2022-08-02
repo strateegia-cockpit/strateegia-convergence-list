@@ -8,12 +8,13 @@ export function ExportsButtons({ project, data, saveFile }) {
     <Box display="flex" justifyContent="flex-end" alignItems='flex-end' m='4px'>
       <ButtonExp click={saveFile} project={project} text='docx'/>
       <CSVLink
-        data={data}
-        filename="strateegia_people_contribution-csv.csv"
+        data={csvData(data).flat()}
+        headers={headers}
+        filename="strateegia_convergence_list_report-csv.csv"
       >
         <ButtonExp click={null} project={project} text='csv'/>
       </CSVLink>
-      <ButtonExp click={() => exportJSONData(data)} project={project} text='json'/>
+      <ButtonExp click={() => exportJSONData(jsonData(data).flat())} project={project} text='json'/>
     </Box>
   );
 }
@@ -25,18 +26,45 @@ export const exportJSONData = (data) => {
 
   const link = document.createElement("a");
   link.href = jsonString;
-  link.download = "strateegia_production_per_person_report-json.json";
+  link.download = "strateegia_convergence_list_report-json.json";
 
   link.click();
 };
 
-function dataToCsv(data) {
-  const items = data;
-  const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-  const header = Object.keys(items[0]);
-  const csv = [
-    header.join(','), // header row first
-    ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-  ].join('\r\n');
-  return csv;
-}
+const jsonData = (data) => data.map(({questions}) => {
+  const questionsMapping = questions.map(({text, options}) => {
+      const allOptions = options.map(({text, average}) => {
+        return {
+          title: text,
+          average: (average * 100).toFixed(2) + '%'}
+       })
+       
+      const data = {
+        text: text,
+        options: allOptions
+      }
+      return data;
+    })
+  return questionsMapping;
+});
+
+const headers = [
+  {label: "title" , key: "title"},
+  {label: "options" , key: "options"},
+]
+
+const csvData = (data) => data.map(({questions}) => {
+  const questionsMapping = questions.map(({text, options}) => {
+      const allOptions = options.map(({text, average}) => {
+        return text + ' ' + (average * 100).toFixed(2) + '%'
+       })
+       
+      const data = {
+        title: text,
+        options: allOptions.join(', ')
+      }
+      return data;
+    })
+  return questionsMapping;
+});
+

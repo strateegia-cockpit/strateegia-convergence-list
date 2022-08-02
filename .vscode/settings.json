@@ -18,5 +18,8 @@
     "titleBar.inactiveBackground": "#ffb88399",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.color": "#FFb883"
+  "peacock.color": "#FFb883",
+  "i18n-ally.localesPaths": [
+    "src/translate/languages"
+  ]
 }
