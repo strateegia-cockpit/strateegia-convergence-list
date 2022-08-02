@@ -1,4 +1,4 @@
-import { Box, Link, UnorderedList, Heading, Button } from '@chakra-ui/react';
+import { Box, Link, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { i18n } from "../translate/i18n";
 import * as api from 'strateegia-api';
@@ -45,7 +45,6 @@ export default function Main() {
   };
 
   const handleMapSelectChange = (value) => {
-  console.log("🚀 ~ file: Main.jsx ~ line 47 ~ handleMapSelectChange ~ value", value)
     setSelectedMap(value);
   };
 
@@ -81,7 +80,6 @@ export default function Main() {
 
   
   useEffect(() => {
-    console.log("🚀 ~ file: Main.jsx ~ line 100 ~ Main ~ convergencePoints", convergencePoints)
     
   }, [convergencePoints]);
 
